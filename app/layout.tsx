@@ -1,25 +1,30 @@
-import type { Metadata } from "next";
-import "@/app/globals.css";
+import './globals.css';
+import type { Metadata } from 'next';
+import { LiveAPIProvider } from '../lib/contexts/LiveAPIContext';
+import { GEMINI_LIVE_API_URL } from './config/proctoring-config';
 
 export const metadata: Metadata = {
-  title: "Ultravox Demo",
-  description: "Demonstration of using the Ultravox API to create a call with an AI agent.",
+  title: 'Ultravox Interactive AI Interview',
+  description: 'Interactive AI interview platform powered by Ultravox',
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: {
+  children: React.ReactNode
+}) {
+  // Use environment variable for API key
+  const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+  
   return (
     <html lang="en">
-      <head>
-        {/* <!-- Fathom - beautiful, simple website analytics --> */}
-        <script src="https://cdn.usefathom.com/script.js" data-site="ONYOCTXK" defer></script>
-        {/* <!-- / Fathom --> */}
-      </head>
-      <body className="bg-black text-white">
-        {children}
+      <body>
+        <LiveAPIProvider 
+          url={GEMINI_LIVE_API_URL} 
+          apiKey={apiKey}
+        >
+          {children}
+        </LiveAPIProvider>
       </body>
     </html>
   );

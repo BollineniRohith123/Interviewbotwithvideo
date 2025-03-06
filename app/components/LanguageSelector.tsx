@@ -47,7 +47,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
   };
   
   return (
-    <div>
+    <div data-testid="language-selector">
       <div className="flex items-center mb-4">
         <div className="w-1.5 h-8 bg-deep-purple rounded-full mr-3"></div>
         <h2 className="text-xl font-bold text-gradient-purple">Select Programming Language</h2>
@@ -75,6 +75,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
               onMouseLeave={() => setHoveredLanguage(null)}
               disabled={disabled}
               aria-pressed={isSelected}
+              data-testid={`language-option-${language.id}`}
               className={`
                 relative group flex flex-col items-center justify-center p-5 rounded-xl border-2 
                 transition-all duration-300

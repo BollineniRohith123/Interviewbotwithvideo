@@ -1,81 +1,171 @@
-# TezHire Interview Bot
+# Ultravox Interactive AI with Video Proctoring
 
-> AI-powered technical interview platform using Ultravox for conducting realistic programming interviews and providing detailed candidate feedback.
+This project combines Ultravox's voice interview capabilities with Gemini-powered video proctoring for comprehensive interview monitoring.
 
-## Overview
+## New Features
 
-TezHire Interview Bot is an innovative platform designed to help technical recruiters and hiring managers conduct preliminary technical interviews without human intervention. Using advanced AI technologies, the platform simulates realistic interview experiences across multiple programming languages, providing detailed feedback and candidate assessment.
+- Real-time video monitoring
+- AI-powered proctoring using Gemini Vision API
+- Violation detection and reporting
+- Non-intrusive integration with voice interviews
 
-## Key Features
+## Prerequisites
 
-- **Multi-language Technical Interviews**: Support for Python, JavaScript, Java, and C# programming interviews
-- **AI-Powered Interviewer**: Natural conversation flow with adaptive questioning based on candidate responses
-- **Real-time Candidate Assessment**: Evaluate technical skills, problem-solving abilities, and communication
-- **Comprehensive Feedback**: Detailed post-interview analytics and performance metrics
-- **Interactive Interview Experience**: Voice-based interactions with real-time transcription
-- **Performance Visualization**: Visual representation of candidate performance with animated scoring
-- **Customizable Question Categories**: Organized by programming language and technical domains
+- Node.js >= 16.0.0
+- PNPM >= 8.0.0
+- Gemini API Key
+- Google Cloud Project
+- Ultravox API Key
 
-## Technical Stack
+## Quick Start
 
-- **Next.js**: React framework for the user interface
-- **Ultravox AI**: Conversational AI engine for realistic interview simulations
-- **TypeScript**: Type-safe programming language
-- **Tailwind CSS**: Utility-first CSS framework for modern designs
-- **pnpm**: Fast, disk space efficient package manager
-
-## Setup Instructions
-
-### Prerequisites
-- Node.js installed
-- pnpm installed ([installation instructions](https://pnpm.io/installation))
-- Ultravox API key
-
-### Installation
-
-1. Clone the repository:
+1. **Installation**
    ```bash
-   git clone https://github.com/BollineniRohith123/Interviewbot.git
-   cd Interviewbot
-   ```
+   # Clean install
+   pnpm run cleanup
 
-2. Install dependencies:
-   ```bash
+   # Install dependencies
    pnpm install
    ```
 
-3. Set up environment variables:
-   - Create a file called `.env.local`
-   - Add your Ultravox API key:
-     ```
-     ULTRAVOX_API_KEY=<YOUR_KEY_HERE>
-     ```
+2. **Configuration**
+   ```bash
+   # Copy environment template
+   cp .env.example .env.local
 
-### Running the Application
+   # Add your API keys
+   GEMINI_API_KEY=your-gemini-api-key
+   GOOGLE_CLOUD_PROJECT=your-project-id
+   ULTRAVOX_API_KEY=your-ultravox-key
+   ```
 
-Start the development server:
-```bash
-pnpm dev
+3. **Setup & Validation**
+   ```bash
+   # Run complete setup
+   pnpm run setup
+   ```
+
+4. **Development**
+   ```bash
+   pnpm dev
+   ```
+
+## Features
+
+### Video Proctoring
+- Face presence detection
+- Multiple face detection
+- Attention monitoring
+- Suspicious behavior detection
+- Device detection
+
+### Integration with Voice Interviews
+- Non-blocking monitoring
+- Real-time violation reporting
+- Configurable strictness levels
+- Performance optimized
+
+## Configuration Options
+
+### Environment Variables
+```env
+# Required
+GEMINI_API_KEY=your-gemini-api-key
+GOOGLE_CLOUD_PROJECT=your-project-id
+ULTRAVOX_API_KEY=your-ultravox-key
+
+# Optional
+PROCTORING_STRICTNESS=medium # low | medium | high
 ```
 
-## Interview Process
+### Component Usage
+```tsx
+<VideoProctor
+  isActive={true}
+  frameRate={1}
+  quality={0.8}
+  onViolationDetected={(violation) => {
+    console.log('Violation:', violation);
+  }}
+/>
+```
 
-1. **Language Selection**: Choose from Python, JavaScript, Java, or C#
-2. **Interview Initiation**: Begin the interview with an AI-powered interviewer
-3. **Technical Assessment**: Answer questions across multiple technical categories
-4. **Performance Analysis**: Receive detailed feedback and performance metrics
-5. **Review Results**: Analyze interview performance and areas for improvement
+## Scripts
 
-## Query Parameters
-
-| What | Parameter | Notes |
-|--------|--------|---------|
-|**Debug Logging**|`showDebugMessages=true`| Turns on additional console logging|
-|**Speaker Mute Toggle**|`showSpeakerMute=true`| Shows the speaker mute button|
-|**Change Model**|`model=ultravox-70B`|Changes the model to what is specified. Note: the app will prepend `fixie-ai/` to the value|
-|**Enable User Transcripts**|`showUserTranscripts=true`|Displays user transcripts. Otherwise, only Ultravox/agent transcripts are shown|
+| Command | Description |
+|---------|-------------|
+| `pnpm dev` | Start development server |
+| `pnpm build` | Build production bundle |
+| `pnpm start` | Start production server |
+| `pnpm run setup` | Complete setup with validation |
+| `pnpm run validate` | Validate installation |
+| `pnpm run test-gemini` | Test Gemini API integration |
 
 ## Documentation
-For more information about Ultravox and its capabilities, visit: [Ultravox Documentation](https://docs.ultravox.ai)
 
+- [Quick Start Guide](./QUICKSTART.md) - Setup and basic usage
+- [Proctoring Guide](./PROCTORING.md) - Detailed proctoring documentation
+- [API Reference](./app/api/gemini/route.ts) - API documentation
 
+## Development
+
+### Project Structure
+```
+├── app/
+│   ├── api/
+│   │   └── gemini/        # Gemini API integration
+│   └── components/
+│       └── VideoProctor/  # Video monitoring component
+├── lib/
+│   ├── multimodalLiveClient.ts  # Gemini client
+│   └── contexts/         # React contexts
+└── scripts/             # Setup and validation scripts
+```
+
+### Testing Changes
+```bash
+# Validate setup
+pnpm run validate
+
+# Test Gemini integration
+pnpm run test-gemini
+```
+
+## Troubleshooting
+
+1. **Installation Issues**
+   ```bash
+   pnpm run cleanup
+   pnpm install --force
+   ```
+
+2. **API Issues**
+   ```bash
+   # Test API connection
+   pnpm run test-gemini
+   ```
+
+3. **Integration Issues**
+   ```bash
+   # Validate setup
+   pnpm run validate
+   ```
+
+## Security Notes
+
+- Keep API keys secure
+- Use environment variables
+- Regular security updates
+- Monitor access logs
+
+## Support
+
+For detailed troubleshooting:
+1. Check [QUICKSTART.md](./QUICKSTART.md)
+2. Run validation: `pnpm run validate`
+3. Check error logs
+4. Review documentation
+
+## License
+
+See [LICENSE](./LICENSE)

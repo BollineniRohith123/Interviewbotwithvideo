@@ -174,6 +174,69 @@ export const highlightProductTool: ClientToolImplementation = (parameters: any) 
   return `${action === 'show' ? 'Highlighted' : 'Unhighlighted'} ${normalizedName}`;
 };
 
+// Webcam utilities for video proctoring
+
+/**
+ * Requests webcam access and returns a MediaStream if successful
+ */
+export async function requestWebcamAccess(constraints: MediaStreamConstraints = { 
+  video: {
+    width: { ideal: 1280 },
+    height: { ideal: 720 },
+    facingMode: "user",
+  }, 
+  audio: false 
+}): Promise<MediaStream | null> {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia(constraints);
+    return stream;
+  } catch (err) {
+    console.error('Error accessing webcam:', err);
+    return null;
+  }
+}
+
+/**
+ * Stops all tracks in a MediaStream
+ */
+export function stopMediaStream(stream: MediaStream | null): void {
+  if (stream) {
+    stream.getTracks().forEach(track => track.stop());
+  }
+}
+
+/**
+ * Captures a frame from a video element at reduced quality for proctoring
+ */
+export function captureVideoFrame(
+  videoElement: HTMLVideoElement,
+  quality: number = 0.8,
+  scaleFactor: number = 0.25
+): string | null {
+  if (!videoElement || videoElement.readyState !== videoElement.HAVE_ENOUGH_DATA) {
+    return null;
+  }
+
+  const canvas = document.createElement('canvas');
+  const width = videoElement.videoWidth * scaleFactor;
+  const height = videoElement.videoHeight * scaleFactor;
+  
+  if (width <= 0 || height <= 0) {
+    return null;
+  }
+  
+  canvas.width = width;
+  canvas.height = height;
+  
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return null;
+  
+  ctx.drawImage(videoElement, 0, 0, width, height);
+  
+  // Convert to base64 JPEG with reduced quality
+  return canvas.toDataURL('image/jpeg', quality);
+}
+
 // Export all tools to make them available to the application
 export const clientTools = {
   updateOrder: updateOrderTool,

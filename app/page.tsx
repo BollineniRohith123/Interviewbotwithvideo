@@ -5,7 +5,7 @@ import { demoConfig, createDemoConfig } from './demo-config';
 import LanguageSelector from './components/LanguageSelector';
 import InterviewModule from './components/InterviewModule';
 import { Transcript, Role } from 'ultravox-client';
-import { InterviewFeedback } from './components/InterviewFeedback';
+import InterviewFeedback from './components/InterviewFeedback';
 import { PROGRAMMING_LANGUAGES } from '@/lib/constants';
 import MicToggleButton from './components/MicToggleButton';
 
@@ -237,10 +237,11 @@ export default function Home() {
               {/* Call Controls with Enhanced Animation */}
               <div className="mb-6 space-y-4">
                 {!isCallActive ? (
-                  <button
-                    onClick={handleStartCall}
-                    disabled={!selectedLanguage}
-                    className={`w-full px-4 py-4 rounded-lg transition-all ${
+                    <button
+                      data-testid="start-interview-button"
+                      onClick={handleStartCall}
+                      disabled={!selectedLanguage}
+                      className={`w-full px-4 py-4 rounded-lg transition-all ${
                       !selectedLanguage 
                         ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
                         : 'btn-primary pulse'
@@ -263,6 +264,7 @@ export default function Home() {
                     </div>
                     {/* End Call Button */}
                     <button
+                      data-testid="end-interview-button"
                       onClick={handleEndCall}
                       className="btn-danger w-full flex items-center justify-center gap-3 group py-4"
                     >
@@ -282,7 +284,7 @@ export default function Home() {
               
               {/* Call Status with Animation */}
               {status && (
-                <div className={`text-sm mb-6 p-3 rounded-lg transition-all duration-300 ${
+                <div data-testid="call-status" className={`text-sm mb-6 p-3 rounded-lg transition-all duration-300 ${
                   status.toLowerCase().includes('error') 
                     ? 'bg-red-100/70 text-red-700 border-l-4 border-red-500'
                     : status.toLowerCase().includes('connected')
